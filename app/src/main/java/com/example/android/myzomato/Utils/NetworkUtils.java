@@ -24,7 +24,6 @@ public final class NetworkUtils {
 
     /**
      * Builds the URL.
-     * Vysklada URL adresu
      */
     public static URL buildUrl() {
 
