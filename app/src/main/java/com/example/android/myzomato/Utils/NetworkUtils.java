@@ -20,7 +20,7 @@ public final class NetworkUtils {
     private NetworkUtils() {}
 
     // url
-    final static String RECEPT_URL = "https://developers.zomato.com/api/v2.1/categories";
+    final static String RECEPT_URL = "https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city";
 
     /**
      * Builds the URL.
