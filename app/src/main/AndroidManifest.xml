@@ -23,6 +23,11 @@
             android:authorities="com.example.android.myzomato"
             android:name=".data.RestaurantProvider"
             android:exported="false"/>
+
+        <service
+            android:name=".sync.ZomatoSyncIntentService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

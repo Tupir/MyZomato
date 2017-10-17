@@ -1,6 +1,5 @@
 package com.example.android.myzomato;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,9 +14,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.android.myzomato.Utils.NetworkUtils;
-import com.example.android.myzomato.Utils.RestaurantJsonParser;
 import com.example.android.myzomato.data.RestaurantDbHelper;
 import com.example.android.myzomato.data.RestaurantTableContents;
+import com.example.android.myzomato.sync.ZomatoSyncUtils;
 
 import java.net.URL;
 
@@ -67,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mDb = dbHelper.getWritableDatabase();
 
 
-        showLoading();
-        getSupportLoaderManager().initLoader(FORECAST_LOADER_ID, null, this).forceLoad();
+        getSupportLoaderManager().initLoader(FORECAST_LOADER_ID, null, this);
+        ZomatoSyncUtils.initialize(this);
 
     }
 
@@ -96,10 +95,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return new AsyncTaskLoader<String>(this) {
 
             String recepts = null;
-
+            String jsonRestaurantResponse;
             @Override
             protected void onStartLoading() {
-
+                showLoading();
                 System.out.println("zacalo");
             }
 
@@ -108,36 +107,46 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public String loadInBackground() {
 
 
-                URL receptRequestUrl = NetworkUtils.buildUrl();
+                URL receptRequestUrl = NetworkUtils.buildUrl("https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city");
+                URL receptRequestUrl2 = NetworkUtils.buildUrl("https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city&start=20");
 
-                try {
-                    String jsonRestaurantResponse = NetworkUtils
-                            .getResponseFromHttpUrl(receptRequestUrl);
+//                try {
+//                    jsonRestaurantResponse = NetworkUtils
+//                            .getResponseFromHttpUrl(receptRequestUrl);
+//
+//                    String jsonRestaurantResponse2 = NetworkUtils
+//                            .getResponseFromHttpUrl(receptRequestUrl2);
+//
+//                    ContentValues[] vals = RestaurantJsonParser.getRestaurantDataFromJson(jsonRestaurantResponse);
+//                    int jop = vals.length;
+//                    ContentValues[] vals2 = RestaurantJsonParser.getRestaurantDataFromJson(jsonRestaurantResponse2);
+//                    jop = vals.length;
+//                    ContentValues[] array1and2 = concatArrays(vals, vals2);
+//
+//
+//                    if (vals != null && vals.length != 0) {
+//                        ContentResolver sunshineContentResolver = getContext().getContentResolver();
+//
+//                        sunshineContentResolver.delete(
+//                                RestaurantTableContents.RestaurantEntry.CONTENT_URI,
+//                                null,
+//                                null);
+//
+//                        sunshineContentResolver.bulkInsert(
+//                                RestaurantTableContents.RestaurantEntry.CONTENT_URI,
+//                                array1and2);
+//                    }
+//
+//
+//
+//                    System.out.println(jsonRestaurantResponse);
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                    return null;
+//                }
 
-                    ContentValues[] vals = RestaurantJsonParser.getRestaurantDataFromJson(jsonRestaurantResponse);
-                    int jop = vals.length;
-
-                    if (vals != null && vals.length != 0) {
-                        ContentResolver sunshineContentResolver = getContext().getContentResolver();
-
-                        sunshineContentResolver.delete(
-                                RestaurantTableContents.RestaurantEntry.CONTENT_URI,
-                                null,
-                                null);
-
-                        sunshineContentResolver.bulkInsert(
-                                RestaurantTableContents.RestaurantEntry.CONTENT_URI,
-                                vals);
-                    }
-
-
-
-                    System.out.println(jsonRestaurantResponse);
-                    return jsonRestaurantResponse;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
+                return jsonRestaurantResponse;
             }
 
 
@@ -149,6 +158,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Cursor cursor = getAllFavoriteMovies();
         int ops = cursor.getCount();
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+    }
+
+    public ContentValues[] concatArrays(ContentValues[] one, ContentValues[] two){
+        ContentValues[] array1and2 = new ContentValues[one.length + two.length];
+        System.arraycopy(one, 0, array1and2, 0, one.length);
+        System.arraycopy(two, 0, array1and2, one.length, two.length);
+        return array1and2;
 
     }
 

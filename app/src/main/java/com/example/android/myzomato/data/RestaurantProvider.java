@@ -30,7 +30,7 @@ import static com.example.android.myzomato.data.RestaurantTableContents.Restaura
 
 
 /**
- * This class serves as the ContentProvider for all of Movie's data. This class allows us to
+ * This class serves as the ContentProvider for all of Restaurant's data. This class allows us to
  * bulkInsert data, query data, and delete data.
  * <p>
  * Although ContentProvider implementation requires the implementation of additional methods to
@@ -287,9 +287,6 @@ public class RestaurantProvider extends ContentProvider {
     }
 
     /**
-     * In Sunshine, we aren't going to do anything with this method. However, we are required to
-     * override it as WeatherProvider extends ContentProvider and insert is an abstract method in
-     * ContentProvider. Rather than the single insert method, we are only going to implement
      *
      * @param uri    The URI of the insertion request. This must not be null.
      * @param values A set of column_name/value pairs to add to the database.

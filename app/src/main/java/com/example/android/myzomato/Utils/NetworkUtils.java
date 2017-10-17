@@ -25,10 +25,10 @@ public final class NetworkUtils {
     /**
      * Builds the URL.
      */
-    public static URL buildUrl() {
+    public static URL buildUrl(String stringUrl) {
 
 
-        Uri builtUri = Uri.parse(RECEPT_URL).buildUpon()
+        Uri builtUri = Uri.parse(stringUrl).buildUpon()
                 .
                 build();
 
