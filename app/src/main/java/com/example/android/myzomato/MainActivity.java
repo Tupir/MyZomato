@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case LOADER_ID:
                 /* URI for all rows of all data in our weather table */
                 Uri forecastQueryUri = RestaurantTableContents.RestaurantEntry.CONTENT_URI;
-                //String sortOrder = "ROWID LIMIT 5";
                 String sortOrder = "RANDOM() LIMIT 5";
 
                 return new CursorLoader(this,

@@ -18,6 +18,10 @@ package com.example.android.myzomato.sync;
 import android.app.IntentService;
 import android.content.Intent;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
  * a service on a separate handler thread.
@@ -30,6 +34,12 @@ public class ZomatoSyncIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        ZomatoSyncTask.syncRestaurant(this);
+        try {
+            ZomatoSyncTask.syncRestaurant(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -23,6 +23,9 @@ import com.example.android.myzomato.Utils.NetworkUtils;
 import com.example.android.myzomato.Utils.RestaurantJsonParser;
 import com.example.android.myzomato.data.RestaurantTableContents;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.net.URL;
 
 public class ZomatoSyncTask {
@@ -36,48 +39,42 @@ public class ZomatoSyncTask {
      *
      * @param context Used to access utility methods and the ContentResolver
      */
-    synchronized public static void syncRestaurant(Context context) {
+    synchronized public static void syncRestaurant(Context context) throws IOException, JSONException {
 
-        String jsonRestaurantResponse;
-        URL receptRequestUrl = NetworkUtils.buildUrl("https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city");
-        URL receptRequestUrl2 = NetworkUtils.buildUrl("https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city&start=20");
+        URL receptRequestUrl2 = NetworkUtils.buildUrl("https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city&start=0");
+        int seq = 0;
+        ContentValues[] vals2 = new ContentValues[0];
+        ContentResolver sunshineContentResolver = context.getContentResolver();
 
-        try {
-            jsonRestaurantResponse = NetworkUtils
-                    .getResponseFromHttpUrl(receptRequestUrl);
+        sunshineContentResolver.delete(
+                RestaurantTableContents.RestaurantEntry.CONTENT_URI,
+                null,
+                null);
 
-            String jsonRestaurantResponse2 = NetworkUtils
+        getNumberOfResults(receptRequestUrl2);
+        int forSequence = RestaurantJsonParser.number_of_results / 20 + 1;
+
+        for(int i=0; i<forSequence; i++){
+
+            String jsonRestaurantResponse = NetworkUtils
                     .getResponseFromHttpUrl(receptRequestUrl2);
 
-            ContentValues[] vals = RestaurantJsonParser.getRestaurantDataFromJson(jsonRestaurantResponse);
-            int jop = vals.length;
-            ContentValues[] vals2 = RestaurantJsonParser.getRestaurantDataFromJson(jsonRestaurantResponse2);
-            jop = vals.length;
-            ContentValues[] array1and2 = concatArrays(vals, vals2);
-            jop = array1and2.length;
+                ContentValues[] vals = RestaurantJsonParser.getRestaurantDataFromJson(jsonRestaurantResponse);
+                vals2 = concatArrays(vals, vals2);
+            receptRequestUrl2 = NetworkUtils.buildUrl("https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city&start="+seq);
+            seq += 20;
+    }
 
-            if (vals != null && vals.length != 0) {
-                ContentResolver sunshineContentResolver = context.getContentResolver();
+        sunshineContentResolver.bulkInsert(
+                RestaurantTableContents.RestaurantEntry.CONTENT_URI,
+                vals2);
 
-                sunshineContentResolver.delete(
-                        RestaurantTableContents.RestaurantEntry.CONTENT_URI,
-                        null,
-                        null);
+    }
 
-                sunshineContentResolver.bulkInsert(
-                        RestaurantTableContents.RestaurantEntry.CONTENT_URI,
-                        array1and2);
-            }
-
-
-
-            System.out.println(jsonRestaurantResponse);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+    // just to get nuber of results (120 in our case)
+    public static void getNumberOfResults(URL receptRequestUrl2) throws IOException, JSONException {
+        RestaurantJsonParser.getRestaurantDataFromJson(NetworkUtils
+                .getResponseFromHttpUrl(receptRequestUrl2));
     }
 
 

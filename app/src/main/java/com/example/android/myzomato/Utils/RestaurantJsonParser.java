@@ -21,10 +21,15 @@ import static com.example.android.myzomato.data.RestaurantTableContents.Restaura
  */
 
 public class RestaurantJsonParser {
+
+    public static int number_of_results;
+
     public static ContentValues[] getRestaurantDataFromJson(String forecastJsonStr)
             throws JSONException {
 
         // These are the names of the JSON objects that need to be extracted.
+        final String RESULTS_FOUND = "results_found";
+
         final String OWM_ALL_RESTAURANTS = "restaurants";
         final String OWM_RESTAURANT = "restaurant";
         final String OWM_ID = "id";
@@ -43,6 +48,8 @@ public class RestaurantJsonParser {
 
 
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
+
+        number_of_results = forecastJson.getInt(RESULTS_FOUND);
 
         // JSONArray ked mas v JSONe znam "["
         JSONArray restaurantArray = forecastJson.getJSONArray(OWM_ALL_RESTAURANTS);
@@ -82,6 +89,5 @@ public class RestaurantJsonParser {
         }
         return restaurantContentValues;
     }
-
 
 }
