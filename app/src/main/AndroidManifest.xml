@@ -12,22 +12,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".all_restaurants.AllRestaurantActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
-            android:authorities="com.example.android.myzomato"
             android:name=".data.RestaurantProvider"
-            android:exported="false"/>
+            android:authorities="com.example.android.myzomato"
+            android:exported="false" />
 
         <service
             android:name=".sync.ZomatoSyncIntentService"
             android:exported="false" />
 
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".all_restaurants.AllRestaurantFragment"
+            android:label="@string/title_activity_all_restaurant_fragment"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

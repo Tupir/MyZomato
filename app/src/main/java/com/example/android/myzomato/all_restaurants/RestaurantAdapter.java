@@ -1,4 +1,4 @@
-package com.example.android.myzomato;
+package com.example.android.myzomato.all_restaurants;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.android.myzomato.R;
 
 /**
  * Created by PepovPC on 10/15/2017.
@@ -73,7 +75,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Fo
         mCursor.moveToPosition(position);
 
 
-        String name = mCursor.getString(MainActivity.INDEX_COLUMN_NAME);
+        String name = mCursor.getString(AllRestaurantActivity.INDEX_COLUMN_NAME);
 
         forecastAdapterViewHolder.restaurantSummary.setText(name);
     }
