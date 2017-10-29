@@ -25,7 +25,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_IMAGE;
+import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_ID;
 import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.TABLE_NAME;
 
 
@@ -221,7 +221,7 @@ public class RestaurantProvider extends ContentProvider {
                 cursor = mOpenHelper.getReadableDatabase().query(
                         TABLE_NAME,
                         projection,
-                        COLUMN_IMAGE + " = ? ",
+                        COLUMN_ID + " = ? ",
                         selectionArguments,
                         null,
                         null,

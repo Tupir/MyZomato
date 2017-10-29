@@ -1,4 +1,4 @@
-package com.example.android.myzomato.all_restaurants;
+package com.example.android.myzomato.favorite_restaurants;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.myzomato.R;
+import com.example.android.myzomato.all_restaurants.AllRestaurantFragment;
 
 /**
  * Created by PepovPC on 10/15/2017.
  */
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ForecastAdapterViewHolder> {
+public class FavoriteRestaurantAdapter extends RecyclerView.Adapter<FavoriteRestaurantAdapter.ForecastAdapterViewHolder> {
 
 
     private final Context mContext;
@@ -31,7 +32,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Fo
 
 
 
-    public RestaurantAdapter(@NonNull Context context, ForecastAdapterOnClickHandler clickHandler) {
+    public FavoriteRestaurantAdapter(@NonNull Context context, ForecastAdapterOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
     }
@@ -43,7 +44,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Fo
      * @param viewGroup The ViewGroup that these ViewHolders are contained within.
      * @param viewType  If your RecyclerView has more than one type of item (like ours does) you
      *                  can use this viewType integer to provide a different layout. See
-     *                  {@link android.support.v7.widget.RecyclerView.Adapter#getItemViewType(int)}
+     *                  {@link RecyclerView.Adapter#getItemViewType(int)}
      *                  for more details.
      * @return A new ForecastAdapterViewHolder that holds the View for each list item
      */

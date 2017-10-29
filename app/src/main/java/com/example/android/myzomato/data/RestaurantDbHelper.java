@@ -27,7 +27,7 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
         return sInstance;
     }
 
-    private static final int DATABASE_VERSION = 1;     // always increment when changes come
+    private static final int DATABASE_VERSION = 2;     // always increment when changes come
 
     private RestaurantDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -66,6 +66,8 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
                         RestaurantEntry.COLUMN_AVERAGE_COST + " INTEGER, " +
 
                         RestaurantEntry.COLUMN_IMAGE + " VARCHAR (255), " +
+
+                        RestaurantEntry.COLUMN_STREET + " VARCHAR (255), " +
 
                         RestaurantEntry.COLUMN_LONGITUDE + " REAL," +
 

@@ -15,6 +15,7 @@ import static com.example.android.myzomato.data.RestaurantTableContents.Restaura
 import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_LONGITUDE;
 import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_NAME;
 import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_RATING;
+import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_STREET;
 
 /**
  * Created by PepovPC on 10/15/2017.
@@ -39,6 +40,7 @@ public class RestaurantJsonParser {
         final String OWM_IMAGE = "featured_image";
 
         final String OWM_LOCATION = "location";
+        final String OWM_STREET = "locality_verbose";
         final String OWM_LAT = "latitude";
         final String OWM_LON = "longitude";
 
@@ -67,6 +69,7 @@ public class RestaurantJsonParser {
             String image = restaurantData.getString(OWM_IMAGE);
 
             JSONObject locationData = restaurantData.getJSONObject(OWM_LOCATION);
+            String street = locationData.getString(OWM_STREET);
             Double latitude = locationData.getDouble(OWM_LAT);
             Double longitude = locationData.getDouble(OWM_LON);
 
@@ -79,6 +82,7 @@ public class RestaurantJsonParser {
             restaurantValues.put(COLUMN_CUISINES, cuisines);
             restaurantValues.put(COLUMN_AVERAGE_COST, cost);
             restaurantValues.put(COLUMN_IMAGE, image);
+            restaurantValues.put(COLUMN_STREET, street);
             restaurantValues.put(COLUMN_LATITUDE, latitude);
             restaurantValues.put(COLUMN_LONGITUDE, longitude);
             restaurantValues.put(COLUMN_RATING, rating);

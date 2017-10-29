@@ -48,17 +48,19 @@ public class RestaurantTableContents {
 
         public static final String COLUMN_IMAGE = "image";
 
-        public static final String COLUMN_LONGITUDE = "latitude";
+        public static final String COLUMN_STREET = "locality_verbose";
 
-        public static final String COLUMN_LATITUDE = "longitude";
+        public static final String COLUMN_LATITUDE = "latitude";
+
+        public static final String COLUMN_LONGITUDE = "longitude";
 
         public static final String COLUMN_RATING = "rating";
 
         public static final String COLUMN_FAVORITE = "favorite";
 
-        public static Uri buildOneRestaurantUri(String image) {
+        public static Uri buildOneRestaurantUri(String id) {
             return CONTENT_URI.buildUpon()
-                    .appendPath(image)
+                    .appendPath(id)
                     .build();
         }
         
