@@ -34,7 +34,7 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
             RestaurantEntry.COLUMN_AVERAGE_COST,
             RestaurantEntry.COLUMN_IMAGE,
             RestaurantEntry.COLUMN_STREET,
-            RestaurantEntry.COLUMN_LATITUDE,    // skontroluj mozno su vymenene
+            RestaurantEntry.COLUMN_LATITUDE,
             RestaurantEntry.COLUMN_LONGITUDE,
             RestaurantEntry.COLUMN_RATING,
             RestaurantEntry.COLUMN_FAVORITE,

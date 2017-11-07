@@ -1,8 +1,11 @@
 package com.example.android.myzomato;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -14,7 +17,7 @@ import android.view.MenuItem;
 
 import com.example.android.myzomato.all_restaurants.AllRestaurantFragment;
 import com.example.android.myzomato.favorite_restaurants.FavoriteRestaurantFragment;
-import com.example.android.myzomato.map_restaurants.OneFragment;
+import com.example.android.myzomato.map.MapsActivity;
 import com.example.android.myzomato.settings.SettingsActivity;
 
 import java.util.ArrayList;
@@ -43,6 +46,13 @@ public class MainActivity extends AppCompatActivity{
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }else{
+            // Write you code here if permission already given.
+        }
+
 
     }
 
@@ -59,14 +69,10 @@ public class MainActivity extends AppCompatActivity{
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new AllRestaurantFragment(), "ALL");
         adapter.addFragment(new FavoriteRestaurantFragment(), "FAVORITE");
-        adapter.addFragment(new OneFragment(), "NEARBY");
+        adapter.addFragment(new MapsActivity(), "NEARBY");
         viewPager.setAdapter(adapter);
     }
 
-//    @Override
-//    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-//
-//    }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
@@ -113,7 +119,6 @@ public class MainActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 

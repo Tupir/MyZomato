@@ -25,6 +25,7 @@
     <string name="action_settings_ok">OK</string>
     <string name="action_settings_cancel">Cancel</string>
     <string name="settings_select">Sort restaurants!</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>
