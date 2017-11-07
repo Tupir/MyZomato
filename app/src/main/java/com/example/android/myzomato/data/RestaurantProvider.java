@@ -131,7 +131,7 @@ public class RestaurantProvider extends ContentProvider {
 
     /**
      * Handles requests to insert a set of new rows. In Sunshine, we are only going to be
-     * inserting multiple rows of data at a time from a weather forecast. There is no use case
+     * inserting multiple rows of data at a time from a weather menu. There is no use case
      * for inserting a single row of data into our ContentProvider, and so we are only going to
      * implement bulkInsert. In a normal ContentProvider's implementation, you will probably want
      * to provide proper functionality for the insert method as well.

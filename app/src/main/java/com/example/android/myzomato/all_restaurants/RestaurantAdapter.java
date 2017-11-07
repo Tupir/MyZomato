@@ -92,9 +92,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Fo
         notifyDataSetChanged();
     }
 
+
     /**
      * A ViewHolder is a required part of the pattern for RecyclerViews. It mostly behaves as
-     * a cache of the child views for a forecast item. It's also a convenient place to set an
+     * a cache of the child views for a menu item. It's also a convenient place to set an
      * OnClickListener, since it has access to the adapter and the views.
      */
     class ForecastAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

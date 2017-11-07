@@ -18,36 +18,14 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.android.myzomato.R;
-import com.example.android.myzomato.data.RestaurantTableContents;
-import com.example.android.myzomato.detail.DetailFragment;
+import com.example.android.myzomato.detail.DetailActivity;
+
+import static com.example.android.myzomato.all_restaurants.AllRestaurantFragment.MAIN_RESTAURANT_PROJECTION;
+import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry;
 
 public class FavoriteRestaurantFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
         FavoriteRestaurantAdapter.ForecastAdapterOnClickHandler{
 
-
-    public static final String[] MAIN_RESTAURANT_PROJECTION = {
-            RestaurantTableContents.RestaurantEntry.COLUMN_ID,
-            RestaurantTableContents.RestaurantEntry.COLUMN_NAME,
-            RestaurantTableContents.RestaurantEntry.COLUMN_CUISINES,
-            RestaurantTableContents.RestaurantEntry.COLUMN_AVERAGE_COST,
-            RestaurantTableContents.RestaurantEntry.COLUMN_IMAGE,
-            RestaurantTableContents.RestaurantEntry.COLUMN_STREET,
-            RestaurantTableContents.RestaurantEntry.COLUMN_LATITUDE,    // skontroluj mozno su vymenene
-            RestaurantTableContents.RestaurantEntry.COLUMN_LONGITUDE,
-            RestaurantTableContents.RestaurantEntry.COLUMN_RATING,
-            RestaurantTableContents.RestaurantEntry.COLUMN_FAVORITE,
-    };
-
-    public static final int INDEX_COLUMN_ID = 0;
-    public static final int INDEX_COLUMN_NAME = 1;
-    public static final int INDEX_COLUMN_CUISINES = 2;
-    public static final int INDEX_COLUMN_AVERAGE_COST = 3;
-    public static final int INDEX_COLUMN_IMAGE = 4;
-    public static final int INDEX_COLUMN_STREET = 5;
-    public static final int INDEX_COLUMN_LATITUDE = 6;
-    public static final int INDEX_COLUMN_LONGITUDE = 7;
-    public static final int INDEX_COLUMN_RATING = 8;
-    public static final int INDEX_COLUMN_FAVORITE = 9;
 
 
 
@@ -70,12 +48,19 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
     }
 
 
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+//    }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the Android-Me fragment layout
-        View rootView = inflater.inflate(R.layout.all_restaurant_activity, container, false);
+        View rootView = inflater.inflate(R.layout.favorite_restaurant_activity, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_forecast);
         mLoadingIndicator = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator);
@@ -94,6 +79,13 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
         getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
 
         return rootView;
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
     }
 
 
@@ -116,15 +108,18 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
 
             case LOADER_ID:
                 /* URI for all rows of all data in our weather table */
-                Uri forecastQueryUri = RestaurantTableContents.RestaurantEntry.CONTENT_URI;
-                String sortOrder = "RANDOM() LIMIT 5";
+                Uri forecastQueryUri = RestaurantEntry.CONTENT_URI;
+
+                String select = "("+ RestaurantEntry.COLUMN_FAVORITE + "=1)";
+                //String select = "("+ RestaurantEntry.COLUMN_ID + "=16514463)";
 
                 return new CursorLoader(getContext(),
                         forecastQueryUri,
                         MAIN_RESTAURANT_PROJECTION,
+                        select,
                         null,
-                        null,
-                        sortOrder);
+                        null);
+
 
             default:
                 throw new RuntimeException("Loader Not Implemented: " + id);
@@ -138,7 +133,7 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
         restaurantAdapter.swapCursor(data);
         if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
         mRecyclerView.smoothScrollToPosition(mPosition);
-        int i = data.getCount();
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
         if(data.getCount() != 0)
             showData();
     }
@@ -152,7 +147,7 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
 
     @Override
     public void onClick(int id) {
-        Intent intent = new Intent(getActivity(), DetailFragment.class);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("activity",  this.getClass().getSimpleName());
         startActivity(intent);

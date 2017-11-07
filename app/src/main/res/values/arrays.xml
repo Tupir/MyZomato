@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+
+    <string-array name="cuisines">
+        <item >Cafe</item>
+        <item >Czech</item>
+        <item >Slovak</item>
+        <item >Grill</item>
+        <item >Sushi</item>
+        <item >Japanese</item>
+        <item >Burger</item>
+        <item >French</item>
+        <item >Mexican</item>
+        <item >Indian</item>
+        <item >Pizza</item>
+    </string-array>
+
+    <string-array name="cuisines_index">
+        <item >0</item>
+        <item >1</item>
+        <item >2</item>
+        <item >3</item>
+        <item >4</item>
+        <item >5</item>
+        <item >6</item>
+        <item >7</item>
+        <item >8</item>
+        <item >9</item>
+        <item >10</item>
+    </string-array>
+
+
+
+</resources>

@@ -19,8 +19,8 @@ import android.widget.ProgressBar;
 
 import com.example.android.myzomato.R;
 import com.example.android.myzomato.data.RestaurantDbHelper;
-import com.example.android.myzomato.data.RestaurantTableContents;
-import com.example.android.myzomato.detail.DetailFragment;
+import com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry;
+import com.example.android.myzomato.detail.DetailActivity;
 import com.example.android.myzomato.sync.ZomatoSyncUtils;
 
 public class AllRestaurantFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
@@ -28,16 +28,16 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
 
 
     public static final String[] MAIN_RESTAURANT_PROJECTION = {
-            RestaurantTableContents.RestaurantEntry.COLUMN_ID,
-            RestaurantTableContents.RestaurantEntry.COLUMN_NAME,
-            RestaurantTableContents.RestaurantEntry.COLUMN_CUISINES,
-            RestaurantTableContents.RestaurantEntry.COLUMN_AVERAGE_COST,
-            RestaurantTableContents.RestaurantEntry.COLUMN_IMAGE,
-            RestaurantTableContents.RestaurantEntry.COLUMN_STREET,
-            RestaurantTableContents.RestaurantEntry.COLUMN_LATITUDE,    // skontroluj mozno su vymenene
-            RestaurantTableContents.RestaurantEntry.COLUMN_LONGITUDE,
-            RestaurantTableContents.RestaurantEntry.COLUMN_RATING,
-            RestaurantTableContents.RestaurantEntry.COLUMN_FAVORITE,
+            RestaurantEntry.COLUMN_ID,
+            RestaurantEntry.COLUMN_NAME,
+            RestaurantEntry.COLUMN_CUISINES,
+            RestaurantEntry.COLUMN_AVERAGE_COST,
+            RestaurantEntry.COLUMN_IMAGE,
+            RestaurantEntry.COLUMN_STREET,
+            RestaurantEntry.COLUMN_LATITUDE,    // skontroluj mozno su vymenene
+            RestaurantEntry.COLUMN_LONGITUDE,
+            RestaurantEntry.COLUMN_RATING,
+            RestaurantEntry.COLUMN_FAVORITE,
     };
 
     public static final int INDEX_COLUMN_ID = 0;
@@ -101,6 +101,12 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
         return rootView;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+    }
+
 
     private void showLoading() {
         mRecyclerView.setVisibility(View.INVISIBLE);
@@ -121,7 +127,7 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
 
             case LOADER_ID:
                 /* URI for all rows of all data in our weather table */
-                Uri forecastQueryUri = RestaurantTableContents.RestaurantEntry.CONTENT_URI;
+                Uri forecastQueryUri = RestaurantEntry.CONTENT_URI;
                 String sortOrder = "RANDOM() LIMIT 5";
 
                 return new CursorLoader(getContext(),
@@ -140,6 +146,7 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
+
         restaurantAdapter.swapCursor(data);
         if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
         mRecyclerView.smoothScrollToPosition(mPosition);
@@ -157,7 +164,7 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public void onClick(int id) {
-        Intent intent = new Intent(getActivity(), DetailFragment.class);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
 

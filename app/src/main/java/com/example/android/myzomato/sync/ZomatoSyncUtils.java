@@ -15,6 +15,7 @@
  */
 package com.example.android.myzomato.sync;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,6 +37,7 @@ public class ZomatoSyncUtils {
      *                ContentResolver
      */
 
+    @SuppressLint("StaticFieldLeak")
     synchronized public static void initialize(@NonNull final Context context) {
 
         /*
@@ -48,7 +50,7 @@ public class ZomatoSyncUtils {
         sInitialized = true;
 
         /*
-         * We need to check to see if our ContentProvider has data to display in our forecast
+         * We need to check to see if our ContentProvider has data to display in our menu
          * list. However, performing a query on the main thread is a bad idea as this may
          * cause our UI to lag. Therefore, we create a thread in which we will run the query
          * to check the contents of our ContentProvider.

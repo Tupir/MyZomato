@@ -18,10 +18,15 @@ package com.example.android.myzomato.sync;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.widget.Toast;
 
 import com.example.android.myzomato.Utils.NetworkUtils;
 import com.example.android.myzomato.Utils.RestaurantJsonParser;
-import com.example.android.myzomato.data.RestaurantTableContents;
+import com.example.android.myzomato.data.RestaurantDbHelper;
+import com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry;
 
 import org.json.JSONException;
 
@@ -41,13 +46,19 @@ public class ZomatoSyncTask {
      */
     synchronized public static void syncRestaurant(Context context) throws IOException, JSONException {
 
+        if (!isNetworkAvailable(context)) {
+            Toast.makeText(context, "Connection not available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SQLiteDatabase mDb;
+
         URL receptRequestUrl2 = NetworkUtils.buildUrl("https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city&start=0");
         int seq = 0;
         ContentValues[] vals2 = new ContentValues[0];
         ContentResolver sunshineContentResolver = context.getContentResolver();
 
         sunshineContentResolver.delete(
-                RestaurantTableContents.RestaurantEntry.CONTENT_URI,
+                RestaurantEntry.CONTENT_URI,
                 null,
                 null);
 
@@ -66,9 +77,21 @@ public class ZomatoSyncTask {
     }
 
         sunshineContentResolver.bulkInsert(
-                RestaurantTableContents.RestaurantEntry.CONTENT_URI,
+                RestaurantEntry.CONTENT_URI,
                 vals2);
 
+
+        deleteDuplicatesFromDatabase(context);
+
+    }
+
+    private static void deleteDuplicatesFromDatabase(Context context) {
+        SQLiteDatabase mDb;// delete all duplicates
+        RestaurantDbHelper dbHelper = RestaurantDbHelper.getInstance(context);
+        mDb = dbHelper.getWritableDatabase();
+        String selele  = "delete from " + RestaurantEntry.TABLE_NAME +  " where rowid not in (select max(rowid) from "
+                + RestaurantEntry.TABLE_NAME+" group by " + RestaurantEntry.COLUMN_NAME+" )";
+        mDb.execSQL(selele);
     }
 
     // just to get nuber of results (120 in our case)
@@ -87,6 +110,12 @@ public class ZomatoSyncTask {
 
     }
 
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 
 }

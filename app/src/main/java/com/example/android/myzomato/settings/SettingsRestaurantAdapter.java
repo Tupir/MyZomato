@@ -1,4 +1,4 @@
-package com.example.android.myzomato.favorite_restaurants;
+package com.example.android.myzomato.settings;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -16,7 +16,7 @@ import com.example.android.myzomato.all_restaurants.AllRestaurantFragment;
  * Created by PepovPC on 10/15/2017.
  */
 
-public class FavoriteRestaurantAdapter extends RecyclerView.Adapter<FavoriteRestaurantAdapter.ForecastAdapterViewHolder> {
+public class SettingsRestaurantAdapter extends RecyclerView.Adapter<SettingsRestaurantAdapter.ForecastAdapterViewHolder> {
 
 
     private final Context mContext;
@@ -32,7 +32,7 @@ public class FavoriteRestaurantAdapter extends RecyclerView.Adapter<FavoriteRest
 
 
 
-    public FavoriteRestaurantAdapter(@NonNull Context context, ForecastAdapterOnClickHandler clickHandler) {
+    public SettingsRestaurantAdapter(@NonNull Context context, ForecastAdapterOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
     }
@@ -53,7 +53,7 @@ public class FavoriteRestaurantAdapter extends RecyclerView.Adapter<FavoriteRest
 
         View view = LayoutInflater
                 .from(mContext)
-                .inflate(R.layout.favorite_restaurant_item, viewGroup, false);
+                .inflate(R.layout.settings_restaurant_item, viewGroup, false);
 
         view.setFocusable(true);
 

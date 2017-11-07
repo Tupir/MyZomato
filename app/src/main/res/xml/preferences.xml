@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+
+    <!--<EditTextPreference-->
+        <!--android:defaultValue="@string/pref_location_default"-->
+        <!--android:inputType="text"-->
+        <!--android:key="@string/pref_location_key"-->
+        <!--android:singleLine="true"-->
+        <!--android:title="@string/pref_location_label" />-->
+
+    <!--<ListPreference-->
+        <!--android:defaultValue="@string/pref_units_metric"-->
+        <!--android:entries="@array/pref_units_options"-->
+        <!--android:entryValues="@array/pref_units_values"-->
+        <!--android:key="@string/pref_units_key"-->
+        <!--android:title="@string/pref_units_label" />-->
+
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="rating_checkbox"
+        android:title="Sort by rating"
+        android:summary="From best to worst" />
+
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="price_checkbox"
+        android:title="Sort by price"
+        android:summary="From cheapest to most expensive" />
+
+    <MultiSelectListPreference
+        android:entries="@array/cuisines"
+        android:entryValues="@array/cuisines_index"
+        android:key="cuisines_list"
+        android:negativeButtonText="@string/action_settings_cancel"
+        android:positiveButtonText="@string/action_settings_ok"
+        android:summary="Click to see list"
+        android:title="@string/pref_title_account" />
+
+
+
+</PreferenceScreen>

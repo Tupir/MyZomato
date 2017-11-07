@@ -2,4 +2,29 @@
     <string name="app_name">MyZomato</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_all_restaurant_fragment">AllRestaurantFragment</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Label for the temperature units preference [CHAR LIMIT=30] -->
+    <string name="pref_units_label">Movie selection</string>
+
+    <!-- Label for metric option in temperature unit preference [CHAR LIMIT=25] -->
+    <string name="pref_units_label_metric">Popular</string>
+
+    <!-- Label for imperial option in temperature unit preference [CHAR LIMIT=25] -->
+    <string name="pref_units_label_imperial">Top rated</string>
+
+    <!-- Key name for temperature unit preference in SharedPreferences [CHAR LIMIT=NONE] -->
+    <string name="pref_units_key" translatable="false">units</string>
+
+    <!-- Value in SharedPreferences for metric temperature unit option [CHAR LIMIT=NONE] -->
+    <string name="pref_units_metric" translatable="false">popular</string>
+
+    <!-- Value in SharedPreferences for imperial temperature unit option [CHAR LIMIT=NONE] -->
+    <string name="pref_units_imperial" translatable="false">top_rated</string>
+    <string name="pref_title_account">Sort by cuisine</string>
+    <string name="action_settings_ok">OK</string>
+    <string name="action_settings_cancel">Cancel</string>
+    <string name="settings_select">Sort restaurants!</string>
+
+
 </resources>
