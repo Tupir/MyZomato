@@ -75,7 +75,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
 
         buildGoogleApiClient();
         mMap.setMyLocationEnabled(true);
-        
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
