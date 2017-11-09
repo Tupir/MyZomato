@@ -167,6 +167,5 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
         Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
-
     }
 }

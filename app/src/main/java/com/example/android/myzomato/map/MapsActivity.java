@@ -1,6 +1,7 @@
 package com.example.android.myzomato.map;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.example.android.myzomato.R;
 import com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry;
+import com.example.android.myzomato.detail.DetailActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -34,10 +36,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import static com.example.android.myzomato.all_restaurants.AllRestaurantFragment.INDEX_COLUMN_ID;
 import static com.example.android.myzomato.all_restaurants.AllRestaurantFragment.INDEX_COLUMN_LATITUDE;
 import static com.example.android.myzomato.all_restaurants.AllRestaurantFragment.INDEX_COLUMN_LONGITUDE;
+import static com.example.android.myzomato.all_restaurants.AllRestaurantFragment.INDEX_COLUMN_NAME;
 import static com.example.android.myzomato.all_restaurants.AllRestaurantFragment.MAIN_RESTAURANT_PROJECTION;
 
 public class MapsActivity extends Fragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, LoaderManager.LoaderCallbacks<Cursor> {
+        LocationListener, LoaderManager.LoaderCallbacks<Cursor>{
 
     private GoogleMap mMap;
     LocationRequest mLocationRequest;
@@ -45,6 +48,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
     Marker mCurrLocationMarker;
     GoogleApiClient mGoogleApiClient;
     private static final int LOADER_ID = 323;
+    private double lat,lon;
+    private boolean isInfoWindowShown = false;
 
 
     public static MapsActivity newInstance() {
@@ -59,9 +64,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
-        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-
         return view;
     }
 
@@ -73,6 +75,18 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
 
         buildGoogleApiClient();
         mMap.setMyLocationEnabled(true);
+        
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra("id", (int) marker.getTag());
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -114,6 +128,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
 
         //Place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        lat = location.getLatitude();
+        lon = location.getLongitude();
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Your Current Position");
@@ -122,13 +138,30 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
 
         //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
         //stop location updates
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
+
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+
     }
+
+    protected Marker createMarker(double latitude, double longitude, String title, int id) {
+
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .anchor(0.5f, 0.5f)
+                .title(title));
+
+        marker.setTag(id);
+
+        return marker;
+    }
+
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -137,14 +170,17 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
             case LOADER_ID:
                 /* URI for all rows of all data in our weather table */
                 Uri forecastQueryUri = RestaurantEntry.CONTENT_URI;
-                String sortOrder = "RANDOM() LIMIT 5";
+                System.out.println("POZICIA: "+ lat + " " + lon);
+                String sordOrder = "(("+lat+" - "+RestaurantEntry.COLUMN_LATITUDE+")*("+lat+" - "+RestaurantEntry.COLUMN_LATITUDE+""
+                        +")) + (("+lon+" - "+RestaurantEntry.COLUMN_LONGITUDE+")*("+lon+" - "+RestaurantEntry.COLUMN_LONGITUDE +")) ASC LIMIT 15";
+
 
                 return new CursorLoader(getContext(),
                         forecastQueryUri,
                         MAIN_RESTAURANT_PROJECTION,
                         null,
                         null,
-                        sortOrder);
+                        sordOrder);
 
             default:
                 throw new RuntimeException("Loader Not Implemented: " + id);
@@ -155,14 +191,16 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
         data.moveToFirst();
-        String name = (data.getString(INDEX_COLUMN_ID));
-        String lat  = (data.getString(INDEX_COLUMN_LATITUDE));
-        String longitude = (data.getString(INDEX_COLUMN_LONGITUDE));
 
-        double jed = Double.parseDouble(lat);
-        double dva = Double.parseDouble(longitude);
+        for(int i = 0 ; i < 15 ; i++ ) {
+            String name = (data.getString(INDEX_COLUMN_NAME));
+            double lat = Double.parseDouble(data.getString(INDEX_COLUMN_LATITUDE));
+            double longitude = Double.parseDouble(data.getString(INDEX_COLUMN_LONGITUDE));
+            int id = data.getInt(INDEX_COLUMN_ID);
+            createMarker(lat, longitude, name, id);
+            data.moveToNext();
+        }
 
-        System.out.println(lat + longitude);
 
     }
 
@@ -170,4 +208,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+
 }
