@@ -6,6 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_AVERAGE_COST;
 import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_CUISINES;
 import static com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry.COLUMN_FAVORITE;
@@ -92,6 +95,40 @@ public class RestaurantJsonParser {
 
         }
         return restaurantContentValues;
+    }
+
+
+    public static List<List<String>> getMenuDataFromJson(String urlResponse) throws JSONException {
+
+        final String OWM_DAILY_MENUS = "daily_menus";
+        final String OWM_DAILY_MENU = "daily_menu";
+        final String OWM_DISHES = "dishes";
+        final String OWM_DISH = "dish";
+
+        final String OWM_NAME = "name";
+        final String OWM_PRICE = "price";
+
+        List<List<String>> menus = new ArrayList<>();
+
+        JSONObject forecastJson = new JSONObject(urlResponse);
+        JSONArray menuArray = forecastJson.getJSONArray(OWM_DAILY_MENUS);
+
+        JSONObject menu = menuArray.getJSONObject(0);
+        JSONObject restaurantData = menu.getJSONObject(OWM_DAILY_MENU);
+        JSONArray dishes = restaurantData.getJSONArray(OWM_DISHES);
+        for(int i = 0; i < dishes.length(); i++){
+            JSONObject dish = dishes.getJSONObject(i);
+            JSONObject dishData = dish.getJSONObject(OWM_DISH);
+            String name = dishData.getString(OWM_NAME);
+            String price = dishData.getString(OWM_PRICE);
+
+            List<String> x = new ArrayList<>();
+            x.add(name);
+            x.add(price);
+            menus.add(x);
+        }
+
+            return menus;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.android.myzomato.detail;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,6 +13,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,11 +49,14 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     private static final int LOADER_ID = 5;
+    private static final int LOADER_ID_MENU = 6;
     private Toolbar toolbar;
     private int id;
     private Uri forecastQueryUri;
     private String intentActivity;
     private Boolean isInDatabaseAlready = false;
+    private String menus;
+    private MenuAdapter mAdapter;
 
     @BindView(R.id.adress) TextView textAdress;
     @BindView(R.id.cuisines) TextView textCuisines;
@@ -60,6 +66,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.add_favorite) ImageButton favorite_button;
     @BindView(R.id.textFavorite) TextView favorite_text;
+    @BindView(R.id.recyclerview_menus) RecyclerView recycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,10 +85,16 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             id = intent.getIntExtra("id", 0);
         }
 
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recycler.setLayoutManager(layoutManager);
+        recycler.setHasFixedSize(true);
+        mAdapter = new MenuAdapter(getBaseContext());
+        recycler.setAdapter(mAdapter);
+
+        getSupportLoaderManager().initLoader(LOADER_ID_MENU, null, new MenuLoader(this, mAdapter, id));
+
 
         displayImage();
-
-
         forecastQueryUri = RestaurantEntry.buildOneRestaurantUri(String.valueOf(id));
 
 
@@ -150,6 +163,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
 
 
+    @SuppressLint("StaticFieldLeak")
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
 
@@ -190,6 +204,8 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             }
 
         }
+
+        System.out.println(menus);
 
 
     }

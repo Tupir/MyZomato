@@ -20,17 +20,33 @@ public final class NetworkUtils {
     private NetworkUtils() {}
 
     // url
-    final static String RECEPT_URL = "https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city";
+    static String MENU_URL = "https://developers.zomato.com/api/v2.1/dailymenu?res_id=";
 
     /**
      * Builds the URL.
      */
     public static URL buildUrl(String stringUrl) {
 
-
         Uri builtUri = Uri.parse(stringUrl).buildUpon()
-                .
-                build();
+                .build();
+
+        URL url = null;
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(url.toString());
+        return url;
+    }
+
+    public static URL buildUrlMenu(String id) {
+
+        MENU_URL = MENU_URL + "16514463";    // + id
+
+        Uri builtUri = Uri.parse(MENU_URL).buildUpon()
+                .build();
 
         URL url = null;
         try {
