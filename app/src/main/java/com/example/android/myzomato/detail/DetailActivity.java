@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -24,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.android.myzomato.R;
 import com.example.android.myzomato.data.RestaurantDbHelper;
+import com.example.android.myzomato.widget.WidgetService;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -142,8 +142,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         String backgroundImageName = String.valueOf(favorite_button.getTag());
         System.out.println(backgroundImageName);
-        Drawable obr = favorite_button.getDrawable();
-
 
         String input;
         if(!isInDatabaseAlready) {
@@ -158,7 +156,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         cv.put("favorite", input); //These Fields should be your String values of actual column names
         mDb.update(RestaurantEntry.TABLE_NAME, cv, RestaurantEntry.COLUMN_ID + " = " + Integer.toString(id), null);
         displayImage();
-
+        WidgetService.startActionUpdateRestautantsWidgets(this);
     }
 
 

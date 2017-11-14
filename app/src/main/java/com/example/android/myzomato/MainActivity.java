@@ -19,6 +19,7 @@ import com.example.android.myzomato.all_restaurants.AllRestaurantFragment;
 import com.example.android.myzomato.favorite_restaurants.FavoriteRestaurantFragment;
 import com.example.android.myzomato.map.MapsActivity;
 import com.example.android.myzomato.settings.SettingsActivity;
+import com.example.android.myzomato.widget.WidgetService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity{
             // Write you code here if permission already given.
         }
 
+        WidgetService.startActionUpdateRestautantsWidgets(this);
 
     }
 
