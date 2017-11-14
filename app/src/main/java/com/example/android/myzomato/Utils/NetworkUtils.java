@@ -19,9 +19,6 @@ public final class NetworkUtils {
 
     private NetworkUtils() {}
 
-    // url
-    static String MENU_URL = "https://developers.zomato.com/api/v2.1/dailymenu?res_id=";
-
     /**
      * Builds the URL.
      */
@@ -43,9 +40,11 @@ public final class NetworkUtils {
 
     public static URL buildUrlMenu(String id) {
 
-        MENU_URL = MENU_URL + "16514463";    // + id
+        String menuUrl = "https://developers.zomato.com/api/v2.1/dailymenu?res_id=";
 
-        Uri builtUri = Uri.parse(MENU_URL).buildUpon()
+        menuUrl = menuUrl + id;
+
+        Uri builtUri = Uri.parse(menuUrl).buildUpon()
                 .build();
 
         URL url = null;

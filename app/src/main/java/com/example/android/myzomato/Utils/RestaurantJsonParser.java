@@ -113,9 +113,14 @@ public class RestaurantJsonParser {
         JSONObject forecastJson = new JSONObject(urlResponse);
         JSONArray menuArray = forecastJson.getJSONArray(OWM_DAILY_MENUS);
 
+        if(menuArray.length() == 0){
+            return null;
+        }
+
         JSONObject menu = menuArray.getJSONObject(0);
         JSONObject restaurantData = menu.getJSONObject(OWM_DAILY_MENU);
         JSONArray dishes = restaurantData.getJSONArray(OWM_DISHES);
+
         for(int i = 0; i < dishes.length(); i++){
             JSONObject dish = dishes.getJSONObject(i);
             JSONObject dishData = dish.getJSONObject(OWM_DISH);
@@ -128,7 +133,7 @@ public class RestaurantJsonParser {
             menus.add(x);
         }
 
-            return menus;
+        return menus;
     }
 
 }

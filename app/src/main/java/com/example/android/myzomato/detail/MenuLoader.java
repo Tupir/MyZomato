@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.widget.Toast;
 
 import com.example.android.myzomato.Utils.NetworkUtils;
 import com.example.android.myzomato.Utils.RestaurantJsonParser;
@@ -14,7 +15,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,7 +59,9 @@ public class MenuLoader implements LoaderManager.LoaderCallbacks<List<List<Strin
 
             @Override
             public List<List<String>> loadInBackground() {
-                URL weatherRequestUrl = NetworkUtils.buildUrlMenu(Integer.toString(rest_id));
+                int op = rest_id;
+                String val = Integer.toString(rest_id);
+                URL weatherRequestUrl = NetworkUtils.buildUrlMenu(val);
                 String jsonWeatherResponse = null;
                 try{
                     jsonWeatherResponse = NetworkUtils
@@ -71,6 +73,8 @@ public class MenuLoader implements LoaderManager.LoaderCallbacks<List<List<Strin
                 }
 
                 System.out.println(jsonWeatherResponse);
+                if(jsonWeatherResponse == null)
+                    return null;
 
                 try {
                     return RestaurantJsonParser.getMenuDataFromJson(jsonWeatherResponse);
@@ -95,7 +99,11 @@ public class MenuLoader implements LoaderManager.LoaderCallbacks<List<List<Strin
     @Override
     public void onLoadFinished(Loader<List<List<String>>> loader, List<List<String>> data) {
         //MainActivity.mLoadingIndicator.setVisibility(View.INVISIBLE);
-        mAdapter.setMenuData(data);
+        if(data == null) {
+            Toast.makeText(context, "No daily menu for today",
+                    Toast.LENGTH_SHORT).show();
+        }else
+            mAdapter.setMenuData(data);
     }
 
     @Override
