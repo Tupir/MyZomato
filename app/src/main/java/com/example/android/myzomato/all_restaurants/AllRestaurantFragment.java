@@ -3,7 +3,6 @@ package com.example.android.myzomato.all_restaurants;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,15 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 
 import com.example.android.myzomato.R;
-import com.example.android.myzomato.data.RestaurantDbHelper;
 import com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry;
 import com.example.android.myzomato.detail.DetailActivity;
 import com.example.android.myzomato.sync.ZomatoSyncUtils;
 
 public class AllRestaurantFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
-        RestaurantAdapter.ForecastAdapterOnClickHandler{
+        AllRestaurantAdapter.ForecastAdapterOnClickHandler{
 
 
     public static final String[] MAIN_RESTAURANT_PROJECTION = {
@@ -57,10 +56,16 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
     }
 
     private static final int LOADER_ID = 0;
-    private RestaurantAdapter restaurantAdapter;
+    private static final int LOADER_ID2 = 33;
+    private static final int LOADER_ID3 = 34;
+    private AllRestaurantAdapter restaurantAdapter;
+    private AllRestaurantAdapter restaurantAdapter2;
+    private AllRestaurantAdapter restaurantAdapter3;
     private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView2;
+    private RecyclerView mRecyclerView3;
+    private ScrollView scrollView;
     private int mPosition = RecyclerView.NO_POSITION;
-    private SQLiteDatabase mDb;
 
     private ProgressBar mLoadingIndicator;
 
@@ -80,22 +85,44 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
         View rootView = inflater.inflate(R.layout.all_restaurant_activity, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview_forecast);
+        mRecyclerView2 = (RecyclerView) rootView.findViewById(R.id.recyclerview_forecast2);
+        mRecyclerView3 = (RecyclerView) rootView.findViewById(R.id.recyclerview_forecast3);
         mLoadingIndicator = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator);
-
+        scrollView = rootView.findViewById(R.id.scroll);
+        scrollView.smoothScrollTo(0,0);
         showLoading();
+
 
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setNestedScrollingEnabled(false);
 
-        restaurantAdapter = new RestaurantAdapter(getContext(), this);
+        LinearLayoutManager layoutManager2 =
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView2.setLayoutManager(layoutManager2);
+        mRecyclerView2.setHasFixedSize(true);
+        mRecyclerView2.setNestedScrollingEnabled(false);
+
+        LinearLayoutManager layoutManager3 =
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView3.setLayoutManager(layoutManager3);
+        mRecyclerView3.setHasFixedSize(true);
+        mRecyclerView3.setNestedScrollingEnabled(false);
+
+        restaurantAdapter = new AllRestaurantAdapter(getContext(), this);
         mRecyclerView.setAdapter(restaurantAdapter);
 
-        RestaurantDbHelper dbHelper = RestaurantDbHelper.getInstance(getContext());
-        mDb = dbHelper.getWritableDatabase();
+        restaurantAdapter2 = new AllRestaurantAdapter(getContext(), this);
+        mRecyclerView2.setAdapter(restaurantAdapter2);
 
-        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        restaurantAdapter3 = new AllRestaurantAdapter(getContext(), this);
+        mRecyclerView3.setAdapter(restaurantAdapter3);
+
+        getLoaderManager().initLoader(LOADER_ID, null, this);
+        getLoaderManager().initLoader(LOADER_ID2, null, this);
+        getLoaderManager().initLoader(LOADER_ID3, null, this);
         ZomatoSyncUtils.initialize(getContext());
 
         return rootView;
@@ -105,6 +132,13 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
     public void onResume(){
         super.onResume();
         getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID2, null, this).forceLoad();
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID3, null, this).forceLoad();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
 
@@ -121,15 +155,29 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
+        Uri forecastQueryUri = RestaurantEntry.CONTENT_URI;
+        String sortOrder = "RANDOM() LIMIT 5";
 
         switch (id) {
 
             case LOADER_ID:
                 /* URI for all rows of all data in our weather table */
-                Uri forecastQueryUri = RestaurantEntry.CONTENT_URI;
-                String sortOrder = "RANDOM() LIMIT 5";
+                return new CursorLoader(getContext(),
+                        forecastQueryUri,
+                        MAIN_RESTAURANT_PROJECTION,
+                        null,
+                        null,
+                        sortOrder);
 
+            case LOADER_ID2:
+                return new CursorLoader(getContext(),
+                        forecastQueryUri,
+                        MAIN_RESTAURANT_PROJECTION,
+                        null,
+                        null,
+                        sortOrder);
+
+            case LOADER_ID3:
                 return new CursorLoader(getContext(),
                         forecastQueryUri,
                         MAIN_RESTAURANT_PROJECTION,
@@ -147,9 +195,17 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
 
-        restaurantAdapter.swapCursor(data);
+        if(loader.getId() == LOADER_ID) {
+            restaurantAdapter.swapCursor(data);
+        }else if(loader.getId() == LOADER_ID2){
+            restaurantAdapter2.swapCursor(data);
+        }else {
+            restaurantAdapter3.swapCursor(data);
+        }
+
+
+
         if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
-        mRecyclerView.smoothScrollToPosition(mPosition);
         int i = data.getCount();
         if(data.getCount() != 0)
             showData();

@@ -7,15 +7,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.myzomato.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by PepovPC on 10/15/2017.
  */
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ForecastAdapterViewHolder> {
+public class AllRestaurantAdapter extends RecyclerView.Adapter<AllRestaurantAdapter.ForecastAdapterViewHolder> {
 
 
     private final Context mContext;
@@ -31,7 +33,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Fo
 
 
 
-    public RestaurantAdapter(@NonNull Context context, ForecastAdapterOnClickHandler clickHandler) {
+    public AllRestaurantAdapter(@NonNull Context context, ForecastAdapterOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
     }
@@ -73,10 +75,25 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Fo
     public void onBindViewHolder(ForecastAdapterViewHolder forecastAdapterViewHolder, int position) {
         mCursor.moveToPosition(position);
 
-
         String name = mCursor.getString(AllRestaurantFragment.INDEX_COLUMN_NAME);
-
         forecastAdapterViewHolder.restaurantSummary.setText(name);
+
+        String image = mCursor.getString(AllRestaurantFragment.INDEX_COLUMN_IMAGE);
+
+        Picasso.with(mContext).cancelRequest(forecastAdapterViewHolder.imageView);
+
+        if(!image.isEmpty()) {
+            Picasso.with(mContext)
+                    .load(image)
+                    .placeholder(R.drawable.no_image)
+                    .error(R.drawable.no_image)
+                    .skipMemoryCache()
+                    .into(forecastAdapterViewHolder.imageView);
+        }else{
+            forecastAdapterViewHolder.imageView.setBackgroundResource(R.drawable.no_image);
+        }
+
+
     }
 
 
@@ -100,11 +117,13 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Fo
      */
     class ForecastAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final TextView restaurantSummary;
+        final ImageView imageView;
 
         ForecastAdapterViewHolder(View view) {
             super(view);
 
             restaurantSummary = view.findViewById(R.id.restaurant_data);
+            imageView = view.findViewById(R.id.restaurant_image);
 
             view.setOnClickListener(this);
         }
