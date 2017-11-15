@@ -79,7 +79,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if(marker == mCurrLocationMarker)
+                if(marker.equals(mCurrLocationMarker))
                     return;
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra("id", (int) marker.getTag());
