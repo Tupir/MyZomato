@@ -1,4 +1,4 @@
-package com.example.android.myzomato.Utils;
+package com.example.android.myzomato.utils;
 
 /**
  * Created by PepovPC on 11/6/2017.

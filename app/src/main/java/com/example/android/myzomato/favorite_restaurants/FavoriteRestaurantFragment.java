@@ -32,7 +32,7 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
     public FavoriteRestaurantFragment(){
     }
 
-    private static final int LOADER_ID = 33;
+    private static final int LOADER_ID_FAVORITE = 333;
     private FavoriteRestaurantAdapter restaurantAdapter;
     private RecyclerView mRecyclerView;
     private int mPosition = RecyclerView.NO_POSITION;
@@ -76,7 +76,7 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
         mRecyclerView.setAdapter(restaurantAdapter);
 
 
-        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID_FAVORITE, null, this);
 
         return rootView;
     }
@@ -85,7 +85,7 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
     @Override
     public void onResume(){
         super.onResume();
-        getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+        getActivity().getSupportLoaderManager().initLoader(LOADER_ID_FAVORITE, null, this).forceLoad();
     }
 
 
@@ -106,7 +106,7 @@ public class FavoriteRestaurantFragment extends Fragment implements LoaderManage
 
         switch (id) {
 
-            case LOADER_ID:
+            case LOADER_ID_FAVORITE:
                 /* URI for all rows of all data in our weather table */
                 Uri forecastQueryUri = RestaurantEntry.CONTENT_URI;
 

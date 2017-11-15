@@ -25,7 +25,7 @@ import android.support.annotation.NonNull;
 
 import com.example.android.myzomato.data.RestaurantTableContents;
 
-public class ZomatoSyncUtils {
+public final class ZomatoSyncUtils {
 
     private static boolean sInitialized;
 

@@ -1,7 +1,8 @@
-package com.example.android.myzomato.Utils;
+package com.example.android.myzomato.utils;
 
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,14 +16,20 @@ import java.util.Scanner;
  *
  */
 
+// make it final to prevent subclassing
 public final class NetworkUtils {
 
-    private NetworkUtils() {}
+
+    // it avoids access from outside (reflection)
+    private NetworkUtils() {
+        throw new AssertionError("No instances for you!");
+    }
 
     /**
      * Builds the URL.
      */
     public static URL buildUrl(String stringUrl) {
+
 
         Uri builtUri = Uri.parse(stringUrl).buildUpon()
                 .build();
@@ -31,7 +38,7 @@ public final class NetworkUtils {
         try {
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.e("NetworkUtils", e.getMessage(), e);
         }
 
         System.out.println(url.toString());
@@ -51,7 +58,7 @@ public final class NetworkUtils {
         try {
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Log.e("NetworkUtils", e.getMessage(), e);
         }
 
         System.out.println(url.toString());

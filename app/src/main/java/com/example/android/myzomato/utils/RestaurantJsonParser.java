@@ -1,4 +1,4 @@
-package com.example.android.myzomato.Utils;
+package com.example.android.myzomato.utils;
 
 import android.content.ContentValues;
 

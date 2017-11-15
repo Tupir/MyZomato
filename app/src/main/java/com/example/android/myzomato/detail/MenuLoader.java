@@ -8,8 +8,8 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.widget.Toast;
 
-import com.example.android.myzomato.Utils.NetworkUtils;
-import com.example.android.myzomato.Utils.RestaurantJsonParser;
+import com.example.android.myzomato.utils.NetworkUtils;
+import com.example.android.myzomato.utils.RestaurantJsonParser;
 
 import org.json.JSONException;
 

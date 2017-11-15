@@ -17,6 +17,7 @@
         android:layout_height="80dp"
         android:onClick="onButtonClicked"
         android:layout_alignParentBottom="true"
+        android:contentDescription="@string/settings_button"
         android:text="@string/settings_select"/>
 
 </RelativeLayout>

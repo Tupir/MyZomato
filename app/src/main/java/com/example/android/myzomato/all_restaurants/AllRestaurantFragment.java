@@ -66,7 +66,7 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
     private RecyclerView mRecyclerView3;
     private ScrollView scrollView;
     private int mPosition = RecyclerView.NO_POSITION;
-
+    private int index;
     private ProgressBar mLoadingIndicator;
 
 
@@ -89,7 +89,10 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
         mRecyclerView3 = (RecyclerView) rootView.findViewById(R.id.recyclerview_forecast3);
         mLoadingIndicator = (ProgressBar) rootView.findViewById(R.id.pb_loading_indicator);
         scrollView = rootView.findViewById(R.id.scroll);
-        scrollView.smoothScrollTo(0,0);
+
+        if(savedInstanceState == null)
+            scrollView.smoothScrollTo(0,0);
+
         showLoading();
 
 
@@ -139,6 +142,27 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray("ARTICLE_SCROLL_POSITION",
+                new int[]{ scrollView.getScrollX(), scrollView.getScrollY()});
+    }
+
+    @Override
+    public void onActivityCreated (Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState == null)
+            return;
+        final int[] position = savedInstanceState.getIntArray("ARTICLE_SCROLL_POSITION");
+        if(position != null)
+            scrollView.post(new Runnable() {
+                public void run() {
+                    scrollView.scrollTo(position[0], position[1]);
+                }
+            });
     }
 
 
@@ -194,18 +218,19 @@ public class AllRestaurantFragment extends Fragment implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
+        if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
 
         if(loader.getId() == LOADER_ID) {
             restaurantAdapter.swapCursor(data);
+            mRecyclerView.smoothScrollToPosition(mPosition);
         }else if(loader.getId() == LOADER_ID2){
             restaurantAdapter2.swapCursor(data);
+            mRecyclerView2.smoothScrollToPosition(mPosition);
         }else {
             restaurantAdapter3.swapCursor(data);
+            mRecyclerView3.smoothScrollToPosition(mPosition);
         }
 
-
-
-        if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
         int i = data.getCount();
         if(data.getCount() != 0)
             showData();

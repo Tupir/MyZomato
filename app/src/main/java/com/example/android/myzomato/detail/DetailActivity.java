@@ -124,11 +124,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 null);
 
         if(cursor.moveToFirst()) {
-            favorite_text.setText("Remove from favorites:");
+            favorite_text.setText(R.string.remove_favorites);
             favorite_button.setImageResource(R.drawable.ic_delete_black_24dp);
             isInDatabaseAlready = true;
         }else{
-            favorite_text.setText("Add to favorites:");
+            favorite_text.setText(R.string.add_favorites);
             favorite_button.setImageResource(R.drawable.heee);
         }
 

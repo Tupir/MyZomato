@@ -102,6 +102,7 @@ public class RestaurantDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 //      Within onUpgrade, drop the weather table if it exists
         System.out.println(oldVersion +"\n\n"+newVersion);
+        // instead of this, I should migrate database to avoid user to lose his data!
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
 
         onCreate(sqLiteDatabase);

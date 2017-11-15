@@ -18,7 +18,8 @@
             android:gravity="center"
             android:background="@color/main_button"
             android:textSize="20dp"
-            android:text="Breakfast"
+            android:text="@string/breakfast"
+            android:contentDescription="@string/breakfast_button"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
@@ -34,7 +35,8 @@
             android:gravity="center"
             android:background="@color/main_button"
             android:textSize="20dp"
-            android:text="Lunch"
+            android:text="@string/lunch"
+            android:contentDescription="@string/lunch_button"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
@@ -51,7 +53,8 @@
             android:gravity="center"
             android:background="@color/main_button"
             android:textSize="20dp"
-            android:text="Dinner"
+            android:text="@string/dinner"
+            android:contentDescription="@string/dinner_button"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
@@ -67,11 +70,15 @@
             android:id="@+id/pb_loading_indicator"
             android:layout_width="42dp"
             android:layout_height="42dp"
+            android:gravity="center"
             android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:visibility="invisible" />
 
 
     </LinearLayout>
+
+
 
 
 </ScrollView>

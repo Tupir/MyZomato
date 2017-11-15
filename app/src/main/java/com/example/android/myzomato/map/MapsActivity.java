@@ -43,10 +43,10 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         LocationListener, LoaderManager.LoaderCallbacks<Cursor>{
 
     private GoogleMap mMap;
-    LocationRequest mLocationRequest;
-    Location mLastLocation;
-    Marker mCurrLocationMarker;
-    GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private Location mLastLocation;
+    private Marker mCurrLocationMarker;
+    private GoogleApiClient mGoogleApiClient;
     private static final int LOADER_ID = 323;
     private double lat,lon;
     private boolean isInfoWindowShown = false;
@@ -79,6 +79,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+                if(marker == mCurrLocationMarker)
+                    return;
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra("id", (int) marker.getTag());
                 startActivity(intent);
@@ -131,7 +133,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback, Google
         lon = location.getLongitude();
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
-        markerOptions.title("Your Current Position");
+        markerOptions.title("Your position!");
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
 

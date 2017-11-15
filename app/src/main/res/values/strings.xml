@@ -26,6 +26,17 @@
     <string name="action_settings_cancel">Cancel</string>
     <string name="settings_select">Sort restaurants!</string>
     <string name="title_activity_maps">Map</string>
+    <string name="no_connection">Connection not available</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
+    <string name="settings_button">Button for restaurant sorting</string>
+    <string name="breakfast_button">tip for breakfasts</string>
+    <string name="lunch_button">tip for lunch</string>
+    <string name="dinner_button">tip for dinner</string>
+    <string name="add_favorites">Add to favorites:</string>
+    <string name="remove_favorites">Remove from favorites:</string>
+    <string name="your_position">Your Current Position</string>
 
 
 </resources>

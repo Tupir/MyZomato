@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.android.myzomato.R;
-import com.example.android.myzomato.Utils.HelperClass;
+import com.example.android.myzomato.utils.HelperClass;
 import com.example.android.myzomato.detail.DetailActivity;
 
 import java.util.Set;

@@ -23,8 +23,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
-import com.example.android.myzomato.Utils.NetworkUtils;
-import com.example.android.myzomato.Utils.RestaurantJsonParser;
+import com.example.android.myzomato.R;
+import com.example.android.myzomato.utils.NetworkUtils;
+import com.example.android.myzomato.utils.RestaurantJsonParser;
 import com.example.android.myzomato.data.RestaurantDbHelper;
 import com.example.android.myzomato.data.RestaurantTableContents.RestaurantEntry;
 
@@ -47,10 +48,9 @@ public class ZomatoSyncTask {
     synchronized public static void syncRestaurant(Context context) throws IOException, JSONException {
 
         if (!isNetworkAvailable(context)) {
-            Toast.makeText(context, "Connection not available", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.no_connection, Toast.LENGTH_SHORT).show();
             return;
         }
-        SQLiteDatabase mDb;
 
         URL receptRequestUrl2 = NetworkUtils.buildUrl("https://developers.zomato.com/api/v2.1/search?entity_id=219&entity_type=city&start=0");
         int seq = 0;
