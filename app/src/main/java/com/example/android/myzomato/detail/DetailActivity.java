@@ -67,6 +67,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     @BindView(R.id.add_favorite) ImageButton favorite_button;
     @BindView(R.id.textFavorite) TextView favorite_text;
     @BindView(R.id.recyclerview_menus) RecyclerView recycler;
+    // @OnClick can be used for listeners!!!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

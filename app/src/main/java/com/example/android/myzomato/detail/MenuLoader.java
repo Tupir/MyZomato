@@ -8,6 +8,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.widget.Toast;
 
+import com.example.android.myzomato.R;
 import com.example.android.myzomato.utils.NetworkUtils;
 import com.example.android.myzomato.utils.RestaurantJsonParser;
 
@@ -100,7 +101,7 @@ public class MenuLoader implements LoaderManager.LoaderCallbacks<List<List<Strin
     public void onLoadFinished(Loader<List<List<String>>> loader, List<List<String>> data) {
         //MainActivity.mLoadingIndicator.setVisibility(View.INVISIBLE);
         if(data == null) {
-            Toast.makeText(context, "No daily menu for today",
+            Toast.makeText(context, R.string.no_today_menu,
                     Toast.LENGTH_SHORT).show();
         }else
             mAdapter.setMenuData(data);

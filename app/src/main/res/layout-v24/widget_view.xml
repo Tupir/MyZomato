@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:id="@+id/emptyyyy"
         android:textAlignment="center"
-        android:text="EMPTY"
+        android:text="@string/empty_widget"
         android:gravity="center"
         android:textColor="#ffffff"
         android:textSize="20sp"

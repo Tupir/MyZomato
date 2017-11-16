@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textStyle="bold"
-        android:text="PEPEPEPE"
         android:gravity="center"
         android:layout_margin="3dp"
         />

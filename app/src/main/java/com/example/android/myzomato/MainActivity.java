@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity{
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("  Kosice");
+        setTitle(R.string.town_title);
         toolbar.setLogo(R.drawable.ic_restaurant_black_24dp);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);

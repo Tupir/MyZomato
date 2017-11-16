@@ -30,13 +30,25 @@
     <string name="breakfast">Breakfast</string>
     <string name="lunch">Lunch</string>
     <string name="dinner">Dinner</string>
-    <string name="settings_button">Button for restaurant sorting</string>
+    <string name="settings_button">Click to view sorted restaurants</string>
     <string name="breakfast_button">tip for breakfasts</string>
     <string name="lunch_button">tip for lunch</string>
     <string name="dinner_button">tip for dinner</string>
     <string name="add_favorites">Add to favorites:</string>
     <string name="remove_favorites">Remove from favorites:</string>
     <string name="your_position">Your Current Position</string>
+    <string name="action_restaurant_click">Detail of clicked restaurant</string>
+    <string name="restaurant_photo">photo of the restaurant is displayed</string>
+    <string name="action_add_to_favorites">By clicking on button you can add or remove restaurant from favorites</string>
+    <string name="simple_widget_image">simple widget image with no data inside</string>
+    <string name="empty_widget">Empty widget</string>
+    <string name="adress">Adress:</string>
+    <string name="cuisines">Cuisines:</string>
+    <string name="price">Price for two:</string>
+    <string name="menu">MENU:</string>
+    <string name="rating">Rating:</string>
+    <string name="no_today_menu">No daily menu for today</string>
+    <string name="town_title">Kosice</string>
 
 
 </resources>
