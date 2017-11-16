@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'keyZomato'
             keyPassword 'pwdpwd'
-            storeFile file('C:/Users/PepovPC/AndroidStudioProjects/MyZomato/ZomatoKey.jks')
+            storeFile file("$rootDir/ZomatoKey.jks")
             storePassword 'pwdpwd'
         }
     }
@@ -23,6 +23,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }

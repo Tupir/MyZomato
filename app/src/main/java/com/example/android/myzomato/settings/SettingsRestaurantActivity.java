@@ -123,6 +123,7 @@ public class SettingsRestaurantActivity extends AppCompatActivity implements Loa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
 
+        // maybe check of there are not any matches?!?
         restaurantAdapter.swapCursor(data);
         if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
         mRecyclerView.smoothScrollToPosition(mPosition);

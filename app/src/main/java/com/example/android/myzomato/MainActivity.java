@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity{
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new AllRestaurantFragment(), "ALL");
-        adapter.addFragment(new FavoriteRestaurantFragment(), "FAVORITE");
-        adapter.addFragment(new MapsActivity(), "NEARBY");
+        adapter.addFragment(new AllRestaurantFragment(), getResources().getString(R.string.all_restaurants));
+        adapter.addFragment(new FavoriteRestaurantFragment(), getResources().getString(R.string.favorite_restarants));
+        adapter.addFragment(new MapsActivity(), getResources().getString(R.string.nearby_restaurants));
         viewPager.setAdapter(adapter);
     }
 

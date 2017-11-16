@@ -49,6 +49,10 @@
     <string name="rating">Rating:</string>
     <string name="no_today_menu">No daily menu for today</string>
     <string name="town_title">Kosice</string>
+    <string name="all_restaurants">ALL</string>
+    <string name="favorite_restarants">FAVORITE</string>
+    <string name="nearby_restaurants">NEARBY</string>
+    <string name="euro_symbol">€</string>
 
 
 </resources>

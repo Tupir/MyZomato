@@ -191,7 +191,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             textAdress.setText(data.getString(INDEX_COLUMN_STREET));
             textCuisines.setText(data.getString(INDEX_COLUMN_CUISINES));
             textRating.setText(data.getString(INDEX_COLUMN_RATING));
-            textPrice.setText(data.getString(INDEX_COLUMN_AVERAGE_COST) + "€");
+            textPrice.setText(data.getString(INDEX_COLUMN_AVERAGE_COST) + getResources().getString(R.string.euro_symbol));
             collapsingToolbarLayout.setTitle(data.getString(INDEX_COLUMN_NAME));
 
             String photo = data.getString(INDEX_COLUMN_IMAGE);
